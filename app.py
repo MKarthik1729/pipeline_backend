@@ -17,7 +17,7 @@ class BinaryClassifier(BaseEstimator, TransformerMixin):
 app = Flask(__name__)
 CORS(app) 
 @app.route('/',methods=['get'])
-def submit():
+def help():
     return "this is working"
 @app.route('/predict', methods=['POST'])
 def submit():
