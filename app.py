@@ -16,7 +16,9 @@ class BinaryClassifier(BaseEstimator, TransformerMixin):
         return self.model.predict_proba(X)
 app = Flask(__name__)
 CORS(app) 
-
+@app.route('/',methods=['get'])
+def submit():
+    return "this is working"
 @app.route('/predict', methods=['POST'])
 def submit():
     data = request.json  # Access submitted form data
