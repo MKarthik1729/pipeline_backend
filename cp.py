@@ -18,16 +18,18 @@ class BinaryClassifier(BaseEstimator, TransformerMixin):
     def predict(self, X):
         return self.model.predict(X)
     
+with open('combined_pipeline.pkl', 'rb') as file:
+    loaded_combined_pipeline = pickle.load(file)
 
+arr = ['acquired','closed','ipo','operating']
 def prediction(input_arr):
-    with open('combined_pipeline.pkl', 'rb') as file:
-        loaded_combined_pipeline = pickle.load(file)
-
-    arr = ['acquired','closed','ipo','operating']
-    np_arr = np.array(input_arr).reshape(-1,5)
-    df_d = pd.DataFrame(np_arr,columns=['founded_at','closed_at','funding_rounds','funding_total_usd','country_code'])
+    np_arr = np.array(input_arr).reshape(-1,4)
+    df_d = pd.DataFrame(np_arr,columns=['founded_at','funding_rounds','funding_total_usd','country_code'])
     df_d['founded_at'] = pd.to_datetime(df_d['founded_at']).dt.year
-    df_d['closed_at'] = pd.to_datetime(df_d['closed_at']).dt.year
     y = loaded_combined_pipeline.predict(df_d)[0]
     res = arr[y]
     return res
+
+x = [['17-11-2008','2444','33333','USA']]
+
+print(prediction(x))
